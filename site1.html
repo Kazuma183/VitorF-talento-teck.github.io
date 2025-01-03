@@ -1,68 +1,98 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerador de Senhas</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            font-family: sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            height: 100vh;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
         }
+
         .container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        .password-display {
-            font-size: 1.5rem;
-            color: #4CAF50;
-            margin: 20px 0;
-            word-wrap: break-word;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
+            background-color: #fff;
+            padding: 30px;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 400px;
         }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
         button:hover {
-            background-color: #45a049;
+            background-color: #0069d9;
+        }
+
+        #senha-gerada {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Gerador de Senhas Aleatórias</h1>
-        <div class="password-display" id="password">Clique para gerar uma senha</div>
-        <button onclick="generatePassword()">Gerar Senha</button>
+        <h2>Gerador de Senhas</h2>
+        <form id="form-senha">
+            <label for="tamanho">Tamanho da Senha:</label>
+            <input type="number" id="tamanho" name="tamanho" min="8" value="12" required>
+
+            <button type="submit">Gerar Senha</button>
+        </form>
+        <div id="senha-gerada"></div>
     </div>
 
     <script>
-        function generatePassword() {
-            const length = 12; // comprimento da senha
-            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?";
-            let password = "";
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * charset.length);
-                password += charset[randomIndex];
+        const formSenha = document.getElementById('form-senha');
+        const senhaGerada = document.getElementById('senha-gerada');
+
+        formSenha.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const tamanho = parseInt(document.getElementById('tamanho').value);
+            const senha = gerarSenha(tamanho);
+
+            senhaGerada.textContent = senha;
+        });
+
+        function gerarSenha(tamanho) {
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`|}{[]\:;?><,./-='
+            let senha = '';
+            for (let i = 0; i < tamanho; i++) {
+                senha += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
             }
-            document.getElementById("password").innerText = password;
+            return senha;
         }
     </script>
 </body>
